@@ -5,11 +5,10 @@ import com.yeshiqi.wiki.domain.EbookExample;
 import com.yeshiqi.wiki.mapper.EbookMapper;
 import com.yeshiqi.wiki.req.EbookReq;
 import com.yeshiqi.wiki.resp.EbookResp;
-import org.springframework.beans.BeanUtils;
+import com.yeshiqi.wiki.utils.CopyUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,12 +24,14 @@ public class EbookService {
         criteria.andNameLike("%" + req.getName() + "%");
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
-        List<EbookResp> respList = new ArrayList<>();
+        /*List<EbookResp> respList = new ArrayList<>();
         for (Ebook ebook : ebookList) {
             EbookResp ebookResp = new EbookResp();
             BeanUtils.copyProperties(ebook,ebookResp);
             respList.add(ebookResp);
-        }
+        }*/
+
+        List<EbookResp> respList = CopyUtil.copyList(ebookList, EbookResp.class);
 
         return respList;
     }
